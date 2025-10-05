@@ -1,14 +1,11 @@
-# calendar_tools.py
 import datetime
 from dateutil import parser
 import pytz
 from langchain.tools import tool
 from auth import create_service
 
-# Scope: read & write
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
-# Lazy init service (biar nggak langsung login saat import)
 _service = None
 def get_service():
     global _service

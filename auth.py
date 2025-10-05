@@ -18,11 +18,9 @@ def create_service(client_secret_file, api_name, api_version, scopes, prefix='')
 
     token_file = os.path.join(token_dir, f'token_{API_SERVICE_NAME}_{API_VERSION}{prefix}.json')
 
-    # Load token jika sudah ada
     if os.path.exists(token_file):
         creds = Credentials.from_authorized_user_file(token_file, SCOPES)
 
-    # Jika belum ada / expired → refresh atau login ulang
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -30,7 +28,6 @@ def create_service(client_secret_file, api_name, api_version, scopes, prefix='')
             flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
 
-        # Simpan token ke file
         with open(token_file, 'w') as token:
             token.write(creds.to_json())
 
